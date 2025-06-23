@@ -5,8 +5,11 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.util.Map;
+
+import static org.testng.Assert.assertEquals;
 
 public class BaseLibrary extends Data {
 
@@ -44,6 +47,9 @@ public class BaseLibrary extends Data {
 
     }
 
+
+
+
     @Step("{urlPath} GET isteği gönderilir")
     public Response Get(String urlPath, Map<String, Object> queryParamsPayLoad) {
         Response response = RestAssured.given().queryParams(queryParamsPayLoad).when()
@@ -55,6 +61,6 @@ public class BaseLibrary extends Data {
 
     @Step("Assert kontrolü sağlanır")
     public void AssertEquals(String expected, String actual) {
-        Assert.assertEquals(actual, expected);
+        assertEquals(actual, expected);
     }
 }

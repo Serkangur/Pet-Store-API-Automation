@@ -1,10 +1,6 @@
 import Base.BaseTest;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +8,10 @@ public class UserTests extends BaseTest {
 
     @Test(description = "Get - /v2/user - User Info", priority = 2)
     public void GetUser() {
+        Get(URL + "/v2/user/nesringurr");
+    }
+    @Test(description = "Get - /v2/user - User Info", priority = 2)
+    public void GetNonExistingUser() {
         Get(URL + "/v2/user/nesringurr");
     }
 
@@ -61,6 +61,7 @@ public class UserTests extends BaseTest {
         Delete(URL + "/v2/user/nesringurrnew");
     }
 
+
     @Test(description = "Get - /v2/user/login - login ")
     public void Login() {
         Map<String, Object> queryParamsPayLoad = new HashMap<>();
@@ -69,6 +70,52 @@ public class UserTests extends BaseTest {
 
         Get(URL + "/v2/user/login", queryParamsPayLoad);
     }
+
+    @Test(description = "Get - /v2/user/login - login with an incorret username ")
+    public void LoginWithIncorretUsername() {
+        Map<String, Object> queryParamsPayLoad = new HashMap<>();
+        queryParamsPayLoad.put("username", "serkangur1902");
+        queryParamsPayLoad.put("password", "Deneme-2");
+
+        Get(URL + "/v2/user/login", queryParamsPayLoad);
+    }
+
+    @Test(description = "Get - /v2/user/login - login with an incorret password ")
+    public void LoginWithIncorretPassword() {
+        Map<String, Object> queryParamsPayLoad = new HashMap<>();
+        queryParamsPayLoad.put("username", "nesringurr");
+        queryParamsPayLoad.put("password", "Deneme-002");
+
+        Get(URL + "/v2/user/login", queryParamsPayLoad);
+    }
+
+    @Test(description = "Get - /v2/user/login - login ")
+    public void LoginWithEmptyUsername() {
+        Map<String, Object> queryParamsPayLoad = new HashMap<>();
+        queryParamsPayLoad.put("username", "");
+        queryParamsPayLoad.put("password", "Deneme-2");
+
+        Get(URL + "/v2/user/login", queryParamsPayLoad);
+    }
+
+    @Test(description = "Get - /v2/user/login - login ")
+    public void LoginWithEmptyPassword() {
+        Map<String, Object> queryParamsPayLoad = new HashMap<>();
+        queryParamsPayLoad.put("username", "nesringurr");
+        queryParamsPayLoad.put("password", "");
+
+        Get(URL + "/v2/user/login", queryParamsPayLoad);
+    }
+
+    @Test(description = "Get - /v2/user/login - login ")
+    public void LoginWithEmptyUsernameAndPassword() {
+        Map<String, Object> queryParamsPayLoad = new HashMap<>();
+        queryParamsPayLoad.put("username", "");
+        queryParamsPayLoad.put("password", "");
+
+        Get(URL + "/v2/user/login", queryParamsPayLoad);
+    }
+
 
     @Test(description = "Get - /v2/user/logout - Logout ")
     public void Logout() {
@@ -95,16 +142,15 @@ public class UserTests extends BaseTest {
         bodyPayload.put("userStatus", "1");
 
         Post(URL + "/v2/user", bodyPayload, headerPayload);
-        Response response= Get(URL + "/v2/user/serkangurrandom");
-        AssertEquals(response.jsonPath().getString("id"),"32654895132");
-        AssertEquals(response.jsonPath().getString("username"),"serkangurrandom");
-        AssertEquals(response.jsonPath().getString("firstName"),"serkan");
-        AssertEquals(response.jsonPath().getString("lastName"),"gür");
-        AssertEquals(response.jsonPath().getString("email"),"denemeSerkan3@gmail.com");
-        AssertEquals(response.jsonPath().getString("password"),"Deneme-2");
-        AssertEquals(response.jsonPath().getString("phone"),"5555555227");
-        AssertEquals(response.jsonPath().getString("userStatus"),"1");
-
+        Response response = Get(URL + "/v2/user/serkangurrandom");
+        AssertEquals(response.jsonPath().getString("id"), "32654895132");
+        AssertEquals(response.jsonPath().getString("username"), "serkangurrandom");
+        AssertEquals(response.jsonPath().getString("firstName"), "serkan");
+        AssertEquals(response.jsonPath().getString("lastName"), "gür");
+        AssertEquals(response.jsonPath().getString("email"), "denemeSerkan3@gmail.com");
+        AssertEquals(response.jsonPath().getString("password"), "Deneme-2");
+        AssertEquals(response.jsonPath().getString("phone"), "5555555227");
+        AssertEquals(response.jsonPath().getString("userStatus"), "1");
 
 
     }
