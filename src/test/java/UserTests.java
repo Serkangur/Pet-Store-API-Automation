@@ -10,6 +10,9 @@ public class UserTests extends BaseTest {
     public void GetUser() {
         Get(URL + "/v2/user/nesringurr");
     }
+
+
+
     @Test(description = "Get - /v2/user - User Info", priority = 2)
     public void GetNonExistingUser() {
         Get(URL + "/v2/user/nesringurr");
@@ -153,5 +156,10 @@ public class UserTests extends BaseTest {
         AssertEquals(response.jsonPath().getString("userStatus"), "1");
 
 
+    }
+
+    @Test(description = "Get - /v2/user - User Info")
+    public void GetUserSecond() {
+        Get(URL + "/v2/user/serkangur001");
     }
 }
